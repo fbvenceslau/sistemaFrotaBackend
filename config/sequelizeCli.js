@@ -5,7 +5,8 @@ module.exports = {
     port: "5432",
     database: "sistema_frota_dev",
     username: "sistema_frota_user",
-    password: "sistema_frota_pass"
+    password: "onps1kbnVAk10oShhSwm5vCXhpk61NnI"
+    //password: "sistema_frota_pass"
   }
 }
 
