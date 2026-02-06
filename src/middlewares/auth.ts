@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express"
 import { JwtPayload } from "jsonwebtoken"
-import { UserInstance } from "../models/user"
+import { UserInstance } from "../models/User"
 import { jwtService } from "../services/jwtService"
 import { userService } from "../services/userService"
 

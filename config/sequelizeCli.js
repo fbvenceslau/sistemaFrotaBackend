@@ -3,10 +3,11 @@ module.exports = {
     dialect: "postgres",
     host: "localhost",
     port: "5432",
-    database: "dpg-d5umci4hg0os73b16ljg-a",
+    database: "sistema_frota_dev",
+    //database: "dpg-d5umci4hg0os73b16ljg-a",
     username: "sistema_frota_user",
-    password: "onps1kbnVAk10oShhSwm5vCXhpk61NnI"
-    //password: "sistema_frota_pass"
+    //password: "onps1kbnVAk10oShhSwm5vCXhpk61NnI"
+    password: "sistema_frota_pass"
   }
 }
 

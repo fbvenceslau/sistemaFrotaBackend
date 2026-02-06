@@ -4,9 +4,15 @@ const bcrypt = require('bcrypt')
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    const hashedPasswordAdmin = await bcrypt.hash('AdminX@1024', 10)
-    const hashedPasswordController = await bcrypt.hash('Controller@2048', 10)
-    const hashedPasswordDriver = await bcrypt.hash('Driver@4096', 10)
+    const adminPassword = process.env.SEED_ADMIN_PASSWORD || 'AdminX@1024'
+    const controllerPassword = process.env.SEED_CONTROLLER_PASSWORD || 'Controller@2048'
+    const driverPassword = process.env.SEED_DRIVER_PASSWORD || 'Driver@4096'
+    const userPassword = process.env.SEED_USER_PASSWORD || 'User@4096'
+
+    const hashedPasswordAdmin = await bcrypt.hash(adminPassword, 10)
+    const hashedPasswordController = await bcrypt.hash(controllerPassword, 10)
+    const hashedPasswordDriver = await bcrypt.hash(driverPassword, 10)
+    const hashedPasswordUser = await bcrypt.hash(userPassword, 10)
 
     await queryInterface.bulkInsert('users', [
       {
@@ -17,6 +23,7 @@ module.exports = {
         email: 'admin@email.com',
         password: hashedPasswordAdmin,
         role: 'admin',
+        active: true,
         created_at: new Date(),
         updated_at: new Date()
       },
@@ -28,6 +35,7 @@ module.exports = {
         email: 'controller@email.com',
         password: hashedPasswordController,
         role: 'controller',
+        active: true,
         created_at: new Date(),
         updated_at: new Date()
       },
@@ -39,9 +47,45 @@ module.exports = {
         email: 'driver@email.com',
         password: hashedPasswordDriver,
         role: 'driver',
+        active: true,
+        created_at: new Date(),
+        updated_at: new Date()
+      },      {
+        first_name: 'Fábio',
+        last_name: 'Venceslu de Souza',
+        phone: '2222-2222',
+        birth: '1998-08-20',
+        email: 'fabio.venceslau@email.com',
+        password: hashedPasswordUser,
+        role: 'driver',
+        active: true,
+        created_at: new Date(),
+        updated_at: new Date()
+      },      
+      {
+        first_name: 'Ayla',
+        last_name: 'Nunes Venceslau',
+        phone: '2222-2222',
+        birth: '1998-08-20',
+        email: 'ayla.venceslau@email.com',
+        password: hashedPasswordUser,
+        role: 'controller',
+        active: true,
         created_at: new Date(),
         updated_at: new Date()
       },
+      {
+        first_name: 'Daniel',
+        last_name: 'Moura',
+        phone: '2222-2222',
+        birth: '1998-08-20',
+        email: 'daniel.moura@email.com',
+        password: hashedPasswordUser,
+        role: 'admin',
+        active: true,
+        created_at: new Date(),
+        updated_at: new Date()
+      },      
     ])
   },
 

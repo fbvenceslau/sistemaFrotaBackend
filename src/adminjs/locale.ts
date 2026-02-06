@@ -31,7 +31,7 @@ export const locale: Locale = {
       filters: 'Filtros',
       adminVersion: 'Admin: {{version}}',
       appVersion: 'App: {{version}}',
-      loginWelcome: 'Bem-vindo',
+      loginWelcome: '',
       users: 'Usuários'
     },
     properties: {
@@ -72,9 +72,9 @@ export const locale: Locale = {
       noRecordsInResource: 'Não existem registros neste recurso',
       noRecords: 'Nenhum registro',
       confirmDelete: 'Você tem certeza que deseja remover este item? Essa ação é irreversível',
-      welcomeOnBoard_title: 'Bem-vindo à bordo!',
-      welcomeOnBoard_subtitle: 'Agora você é um de nós! Preparamos algumas dicas para você começar:',
-      loginWelcome: 'Ao AdminJS - o melhor framework admin para aplicações Node.js, baseado em React.',
+      welcomeOnBoard_title: '',
+      welcomeOnBoard_subtitle: '',
+      loginWelcome: '',
       addingResources_title: 'Adicionando Recursos',
       addingResources_subtitle: 'Como adicionar novos recursos à barra lateral',
       customizeResources_title: 'Personalizar Recursos',
@@ -94,6 +94,9 @@ export const locale: Locale = {
       needMoreSolutions_title: 'Precisa de mais soluções avançadas?',
       needMoreSolutions_subtitle: 'Estamos aqui para te entregar um belo desenho de UX/UI e software feito sob medida baseado (não apenas) no AdminJS',
       invalidCredentials: 'Nome de usuário e/ou senha incorretos',
+      sessionExpired: 'Sua sessão expirou. Por favor, faça login novamente para continuar.',
+      connectionError: 'Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.',
+      databaseError: 'Erro de conexão com o banco de dados. Por favor, tente novamente em alguns instantes.',
     },
   }
 }

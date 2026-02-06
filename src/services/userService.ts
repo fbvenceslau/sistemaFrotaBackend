@@ -24,7 +24,7 @@ export const userService = {
     birth?: Date;
     email?: string;
   }) => {
-    const [affectedRows, updatedUsers] = await User.update(attributes, {
+    const [_affectedRows, updatedUsers] = await User.update(attributes, {
       where: {
         id: id
       },
@@ -35,7 +35,7 @@ export const userService = {
   },
 
   updatePassword: async (id: number, password: string) => {
-    const [affectedRows, updatedUsers] = await User.update({ 
+    const [_affectedRows, updatedUsers] = await User.update({ 
       password: password
     }, {
       where: {

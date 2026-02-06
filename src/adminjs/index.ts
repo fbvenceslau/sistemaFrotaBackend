@@ -15,6 +15,11 @@ export const adminJs = new AdminJS({
   resources: adminJsResources,
   branding: brandingOptions,
   locale: locale,
+  assets: {
+    scripts: [
+      '/admin-custom.js', // Script customizado para traduzir alertas
+    ],
+  },
 });
 
 export const adminJsRouter = AdminJSExpress.buildAuthenticatedRouter(
@@ -24,5 +29,31 @@ export const adminJsRouter = AdminJSExpress.buildAuthenticatedRouter(
   {
     resave: false,
     saveUninitialized: true,
+    cookie: {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+    },
+    name: 'adminjs',
   }
 );
+
+// Error handler para AdminJS - tratamento de sessão e erros de conexão
+adminJsRouter.use((err: any, req: any, res: any, next: any) => {
+  console.error('[AdminJS Error]', {
+    message: err.message,
+    stack: err.stack,
+    url: req.url,
+    method: req.method,
+  });
+
+  // Se for erro de sessão ou banco de dados, redireciona com mensagem amigável
+  if (err.name === 'SequelizeConnectionError' || err.message?.includes('session')) {
+    return res.status(503).json({
+      error: {
+        message: 'Serviço temporariamente indisponível. Por favor, tente novamente em alguns instantes.',
+      }
+    });
+  }
+
+  next(err);
+});

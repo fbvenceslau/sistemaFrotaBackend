@@ -3,6 +3,7 @@ import { BrandingOptions } from 'adminjs'
 export const brandingOptions: BrandingOptions = {
     companyName: 'Sistema Frota',
     logo: '/sistemaFrota.svg',
+		favicon: '/sistemaFrota.svg',
     theme: {
       colors: {
         primary100: '#ff0043',
@@ -18,6 +19,7 @@ export const brandingOptions: BrandingOptions = {
 	      filterBg: '#333333',
 	      accent: '#151515',
 	      hoverBg: '#151515',
-      }
+      },
+			
     }
   }

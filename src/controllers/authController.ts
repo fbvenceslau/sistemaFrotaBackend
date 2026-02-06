@@ -21,7 +21,8 @@ export const authController = {
         password,
         phone,
         birth,
-        role: "driver"
+        role: "driver",
+        active: true
       });
 
       return res.status(201).json(user);
@@ -32,7 +33,7 @@ export const authController = {
     }
   },
 
-  // POST /auth/login
+  // POST /auth/login-driver
   login: async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
@@ -40,6 +41,11 @@ export const authController = {
       const user = await userService.findByEmail(email);
       
       if (!user) return res.status(404).json({ message: 'E-mail não encontrado.' });
+
+      // Validar se o usuário está ativo
+      if (!user.active) {
+        return res.status(403).json({ message: 'Sua conta foi desativada. Entre em contato com um administrador.' });
+      }
 
       user.checkPassword(password, (err, isSame) => {
         if (err) return res.status(400).json({ message: err.message });  
@@ -74,6 +80,11 @@ export const authController = {
       // Validar se é admin ou controller
       if (user.role !== 'admin' && user.role !== 'controller') {
         return res.status(403).json({ message: 'Acesso negado. Apenas admin e controllers podem acessar.' });
+      }
+
+      // Validar se o usuário está ativo
+      if (!user.active) {
+        return res.status(403).json({ message: 'Sua conta foi desativada. Entre em contato com um administrador.' });
       }
 
       user.checkPassword(password, (err, isSame) => {

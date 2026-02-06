@@ -1,6 +1,7 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../database";
 import bcrypt from "bcrypt";
+import { isValidPhone } from "../utils/validators";
 
 type CheckPasswordCallback = (err?: Error, isSame?: boolean) => void;
 
@@ -13,6 +14,7 @@ export interface User {
   email: string;
   password: string;
   role: 'admin' | 'controller' | 'driver';
+  active: boolean;
 }
 
 export interface UserCreationAttributes extends Optional<User, 'id'> {}
@@ -38,7 +40,14 @@ export const User = sequelize.define<UserInstance, User>('User', {
   },
   phone: {
     allowNull: false,
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
+    validate: {
+      customValidator(value: string) {
+        if (!isValidPhone(value)) {
+          throw new Error('Telefone inválido. Use formato (XX) XXXXX-XXXX ou (XX) XXXX-XXXX');
+        }
+      }
+    }
   },
   birth: {
     allowNull: false,
@@ -46,10 +55,15 @@ export const User = sequelize.define<UserInstance, User>('User', {
   },
   email: {
     allowNull: false,
-    unique: true,
+    unique: {
+      name: 'unique_email',
+      msg: 'Este e-mail já está cadastrado no sistema'
+    },
     type: DataTypes.STRING,
     validate: {
-      isEmail: true
+      isEmail: {
+        msg: 'E-mail inválido'
+      }
     }
   },
   password: {
@@ -59,15 +73,37 @@ export const User = sequelize.define<UserInstance, User>('User', {
   role: {
     allowNull: false,
     type: DataTypes.STRING,
+    defaultValue: 'driver',
     validate: {
-      isIn: [['admin', 'controller', 'driver']]
+      isIn: {
+        args: [['admin', 'controller', 'driver']],
+        msg: 'Perfil inválido. Opções: admin, controller, driver'
+      }
     }
+  },
+  active: {
+    allowNull: false,
+    defaultValue: false,
+    type: DataTypes.BOOLEAN
   }
 }, {
   hooks: {
     beforeSave: async (user) => {
-      if (user.isNewRecord || user.changed('password')) {
-        user.password = await bcrypt.hash(user.password.toString(), 10);
+      try {
+        console.log('[User Hook] beforeSave triggered', { 
+          isNewRecord: user.isNewRecord, 
+          changedPassword: user.changed('password'),
+          email: user.email 
+        });
+        
+        if (user.isNewRecord || user.changed('password')) {
+          console.log('[User Hook] Hashing password...');
+          user.password = await bcrypt.hash(user.password.toString(), 10);
+          console.log('[User Hook] Password hashed successfully');
+        }
+      } catch (error) {
+        console.error('[User Hook] Error in beforeSave:', error);
+        throw error;
       }
     }
   }
