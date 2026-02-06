@@ -1,7 +1,16 @@
 import uploadFileFeature from "@adminjs/upload";
 import { FeatureType, ResourceOptions, ValidationError } from "adminjs";
+import fs from "fs";
 import path from "path";
 import { License } from "../../models/License";
+
+const uploadsRoot = path.join(__dirname, "../../../uploads");
+const licenseUploads = path.join(uploadsRoot, "licenses", "user-");
+const tmpUploads = path.join(uploadsRoot, "tmp");
+
+fs.mkdirSync(uploadsRoot, { recursive: true });
+fs.mkdirSync(licenseUploads, { recursive: true });
+fs.mkdirSync(tmpUploads, { recursive: true });
 
 export const licenseResourceOptions: ResourceOptions = {
   navigation:  "Cadastros",
@@ -204,7 +213,7 @@ export const licenseResourceFeatures: FeatureType[] = [
   uploadFileFeature({
     provider: {
       local: {
-        bucket: path.join(__dirname, "../../../uploads"),
+        bucket: uploadsRoot,
       },
     },
 
