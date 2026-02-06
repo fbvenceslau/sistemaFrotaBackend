@@ -10,6 +10,9 @@ import { router } from './routes'
 
 const app = express()
 
+// Render uses a reverse proxy; trust it so secure cookies work
+app.set('trust proxy', 1)
+
 const uploadsDir = path.resolve(process.cwd(), "uploads")
 const licenseUploadsDir = path.resolve(uploadsDir, "licenses", "user-")
 const tempUploadsDir = path.resolve(uploadsDir, "tmp")
