@@ -10,7 +10,12 @@ import { router } from './routes'
 
 const app = express()
 
-const tempUploadsDir = path.resolve(process.cwd(), "uploads", "tmp")
+const uploadsDir = path.resolve(process.cwd(), "uploads")
+const licenseUploadsDir = path.resolve(uploadsDir, "licenses", "user-")
+const tempUploadsDir = path.resolve(uploadsDir, "tmp")
+
+fs.mkdirSync(uploadsDir, { recursive: true })
+fs.mkdirSync(licenseUploadsDir, { recursive: true })
 fs.mkdirSync(tempUploadsDir, { recursive: true })
 process.env.TMPDIR = tempUploadsDir
 process.env.TMP = tempUploadsDir
